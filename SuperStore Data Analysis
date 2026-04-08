@@ -1,0 +1,118 @@
+-- View the entire dataset to understand structure, columns, and sample records
+SELECT 
+    *
+FROM
+    superstore_sales;
+
+
+-- Identify potential data quality issues:
+-- Find transactions where sales or profit are negative (possible losses, returns, or errors)
+SELECT 
+    *
+FROM
+    superstore_sales
+WHERE
+    sales < 0 OR profit < 0;
+
+
+-- Explore unique regions present in the dataset
+-- Helps understand geographical segmentation
+SELECT DISTINCT
+    region
+FROM
+    superstore_sales;
+
+-- Explore unique product categories
+-- Useful for high-level business performance analysis
+SELECT DISTINCT
+    category
+FROM
+    superstore_sales;
+
+-- Explore unique customer segments
+-- Helps analyze customer behavior and targeting strategies
+SELECT DISTINCT
+    segment
+FROM
+    superstore_sales;
+
+
+-- Calculate total sales by product category
+-- Identifies top-performing categories in terms of revenue
+SELECT 
+    category, 
+    SUM(sales) AS total_sales
+FROM
+    superstore_sales
+GROUP BY category
+ORDER BY total_sales DESC;
+
+
+-- Calculate total profit by product category
+-- Highlights which categories are most profitable (not just high revenue)
+SELECT 
+    category, 
+    SUM(profit) AS total_profit
+FROM
+    superstore_sales
+GROUP BY category
+ORDER BY total_profit DESC;
+
+
+-- Analyze performance at a more granular level (sub-category)
+-- Compare both sales and profit to identify high-revenue but low-profit items
+SELECT 
+    sub_category,
+    SUM(sales) AS total_sales,
+    SUM(profit) AS total_profit
+FROM
+    superstore_sales
+GROUP BY sub_category
+ORDER BY total_sales DESC;
+    
+
+-- Evaluate regional performance
+-- Helps identify strong vs underperforming markets
+SELECT 
+    region,
+    SUM(sales) AS total_sales,
+    SUM(profit) AS total_profit
+FROM
+    superstore_sales
+GROUP BY region
+ORDER BY total_sales DESC;
+
+
+-- Analyze customer segment contribution
+-- Useful for targeting high-value customer groups
+SELECT 
+    segment,
+    SUM(sales) AS total_sales,
+    SUM(profit) AS total_profit
+FROM
+    superstore_sales
+GROUP BY segment
+ORDER BY total_sales DESC;
+
+
+-- Evaluate shipping mode performance
+-- Helps understand cost efficiency and profitability by shipping method
+SELECT 
+    ship_mode,
+    SUM(sales) AS total_sales,
+    SUM(profit) AS total_profit
+FROM
+    superstore_sales
+GROUP BY ship_mode
+ORDER BY total_profit DESC;
+
+
+-- Analyze the relationship between discount levels and profitability
+-- Helps determine if higher discounts negatively impact profit margins
+SELECT 
+    discount, 
+    AVG(profit) AS avg_profit
+FROM
+    superstore_sales
+GROUP BY discount
+ORDER BY discount;
